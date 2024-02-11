@@ -4,19 +4,14 @@
 // var questionTitleElement = document.querySelector("#question-title");
 // var choicesEl = document.querySelectorAll("#choices");
 
-// function buildQuiz() { }
-
-// display quiz
-// buildQuiz();
-
-var questions = [
+let questions = [
     {
         question: "Commonly used data types do NOT include?",
         choices: [
-             "Strings",
-             "Booleans",
-             "Alerts",
-             "Numbers"
+            "Strings",
+            "Booleans",
+            "Alerts",
+            "Numbers"
         ],
         correctChoice: "Booleans",
     },
@@ -61,7 +56,7 @@ var questions = [
         correctChoice: "Curly Brackets",
     },
     {
-        question: "How do you call a function named myFunction?"
+        question: "How do you call a function named myFunction?",
         choices: [
             "call myFunction()",
             "myFunction()",
@@ -71,7 +66,7 @@ var questions = [
         correctChoice: "myFunction()",
     },
     {
-        question: "How does a for loop start?"
+        question: "How does a for loop start?",
         choices: [
             "for (i = 0; i <= 5; i++)",
             "for (i = 0; i <= 5)",
@@ -81,11 +76,11 @@ var questions = [
         correctChoice: "for (i = 0; i <= 5; i++)",
     },
     {
-        question: "In JavaScript, which of the following is a logical operator?"
+        question: "In JavaScript, which of the following is a logical operator?",
         choices: [
-            "|", 
-            "&&", 
-            "%", 
+            "|",
+            "&&",
+            "%",
             "/"
         ],
         correctChoice: "&&",
@@ -106,27 +101,123 @@ console.log(questions[0].question)
 // console.log(questions[0].choices.a)
 
 // Get Dom elements:
-var questionsEl = document.getElementById("#questions");
-var choicesEl = document.getElementById("#choices");
-var submitBtn = document.getElementById("#submit");
-var timerEl = document.getElementsByClassName(".timer");
-var startBtn = document.getElementById("#start");
-var initialsEl = document.getElementById("#initials");
+let questionsEl = document.getElementById("questions");
+let choicesEl = document.getElementById("choices");
+let submitBtn = document.getElementById("submit");
+let timerEl = document.getElementById("time");
+let startBtn = document.getElementById("start");
+let initialsEl = document.getElementById("initials");
+let feedbackEl = document.getElementById("feedback");
+let startScreen = document.getElementById("start-screen");
+let questionsPage = document.getElementById("questions");
+let questionTitle = document.getElementById("question-title");
+// var reStartBtn = document.querySelector("#restart");
 
+// Inititial state of quiz:
+let currentQuestionIndex = 0;
+let time = questions.length * 30;
+let timerId;
 
+// start the quiz and hide the front page:
+function quizStart() {
+    timerId = setInterval(clockTick, 1000);
+    timerEl.textContent = time;
+    let landingScreenEl = document.getElementById("start-screen");
+    landingScreenEl.setAttribute("class","hide");
+    questionsEl.removeAttribute("class");
+    getQuestion();
+}
 
+// Loop through the array of questions/answers and create list with buttons
+function getQuestion() {
+    let currentQuestion = questions[currentQuestionIndex];
+    let promptEl = document.getElementById("question-title");
+    promptEl.textContent = currentQuestion.prompt;
+    choicesEl.innerHTML = "";
+    currentQuestion.options.forEach(
+        function (choice, i) {
+            let choiceBtn = document.createElement("button");
+            choiceBtn.setAttribute("value", choice);
+            choiceBtn.textContent =
+                i + 1 + ". " + choice;
+            choiceBtn.onclick =
+                questionClick;
+            choicesEl.appendChild(
+                choiceBtn
+            );
+        }
+    );
+}
+
+// Check for right answers, deduct time for wrong answer then go to next question
+function questionClick() {
+    if (
+        this.value !==
+        questions[currentQuestionIndex]
+            .correctChoice
+    ) {
+        time -= 10;
+        if (time < 0) {
+            time = 0;
+        }
+        timerEl.textContent = time;
+        feedbackEl.textContent = `Wrong! The correct answer was 
+        ${questions[currentQuestionIndex].correctChoice}.`;
+        feedbackEl.style.color = "red";
+    } else {
+        feedbackEl.textContent =
+            "Correct!";
+        feedbackEl.style.color =
+            "green";
+    }
+    feedbackEl.setAttribute(
+        "class",
+        "feedback"
+    );
+    setTimeout(function () {
+        feedbackEl.setAttribute(
+            "class",
+            "feedback hide"
+        );
+    }, 2000);
+    currentQuestionIndex++;
+    if (
+        currentQuestionIndex ===
+        questions.length
+    ) {
+        quizEnd();
+    } else {
+        getQuestion();
+    }
+}
+
+// End quiz by hiding questions,stop timer and show final score
+function quizEnd() {
+    clearInterval(timerId);
+    let endScreenEl = document.getElementById("end-screen");
+    endScreenEl.removeAttribute("class");
+    let finalScoreEl = document.getElementById("final-score");
+    finalScoreEl.textContent = time;
+    questionsEl.setAttribute(
+        "class",
+        "hide"
+    );
+}
+ 
 // function showquestions(){
 // questionTitleElement.textContent = questions[0].question
 // choicesEl.textContent = questions[0].choices
 // }
 
 // // event listener//
-// startButton.addEventListener("click", function () {
-//     console.log("hello");
-//     startScreen.classList.add("hide");
-//     questionsPage.classList.remove("hide");
-//     showquestions();
-// })
+console.log(startBtn)
+console.log(typeof startBtn)
+startBtn.addEventListener("click", function () {
+    console.log("hello");
+    startScreen.classList.add("hide");
+    questionTitle.textContent = questions[currentQuestionIndex].question
+    questionsPage.classList.remove("hide");
+})
 
 // function showResults() { }
 
