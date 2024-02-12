@@ -1,34 +1,52 @@
 <!DOCTYPE html>
 <html lang="en-gb">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Coding Quiz</title>
 
-    <link rel="stylesheet" href="./style.css" />
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Coding Quiz</title>
 
-  <body>
-    <div class="scores"><a href="highscores.html">View Highscores</a></div>
+  <link rel="stylesheet" href="./style.css" />
+</head>
 
-    <div class="timer">Time: <span id="time">0</span></div>
+<body>
+  <div class="scores"><a href="highscores.html">View Highscores</a></div>
 
-    <div class="wrapper">
-      <div id="start-screen" class="start">
-        <h1>Coding Quiz Challenge</h1>
-        <p>
-          Try to answer the following code-related questions within the time
-          limit. Keep in mind that incorrect answers will penalize your
-          score/time by ten seconds!
-        </p>
-        <button id="start">Start Quiz</button>
+  <div class="timer">Time: <span id="time">0</span></div>
+
+  <div class="wrapper">
+    <div id="start-screen" class="start">
+      <h1>Coding Quiz Challenge</h1>
+      <p>
+        Try to answer the following code-related questions within the time
+        limit. Keep in mind that incorrect answers will penalize your
+        score/time by ten seconds!
+      </p>
+      <button id="start">Start Quiz</button>
+    </div>
+
+    <div id="questions" class="hide">
+      <h2 id="question-title">question goes here</h2>
+      <div id="choices" class="choices">
+        <div>
+          <input type="radio" id="choice-one" name="choices" />
+          <label for="choice-one"></label>
+        </div>
+        <div>
+          <input type="radio" id="choice-two" name="choices" />
+          <label for="choice-two"></label>
+        </div>
+        <div>
+          <input type="radio" id="choice-three" name="choices" />
+          <label for="choice-three"></label>
+        </div>
+        <div>
+          <input type="radio" id="choice-four" name="choices" />
+          <label for="choice-four"></label>
+        </div>
       </div>
-
-      <div id="questions" class="hide">
-        <h2 id="question-title">question goes here</h2>
-        <div id="choices" class="choices">
-          <div>
+      <button id="nextQuestion">Next Question</button>
       </div>
 
       <div id="end-screen" class="hide">
@@ -45,5 +63,6 @@
 
     <!-- <script src="./assets/js/questions.js"></script> -->
     <script src="./logic.js"></script>
-  </body>
+</body>
+
 </html>

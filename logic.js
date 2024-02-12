@@ -1,9 +1,3 @@
-// var startButton = document.getElementById("start");
-// var startScreen = document.getElementById("start-screen");
-// var questionsPage = document.getElementById("questions");
-// var questionTitleElement = document.querySelector("#question-title");
-// var choicesEl = document.querySelectorAll("#choices");
-
 let questions = [
     {
         question: "Commonly used data types do NOT include?",
@@ -96,10 +90,6 @@ console.log(questions[0])
 //printing the first question message:
 console.log(questions[0].question)
 
-// console.log(questions[0].choices)
-
-// console.log(questions[0].choices.a)
-
 // Get Dom elements:
 let questionsEl = document.getElementById("questions");
 let choicesEl = document.getElementById("choices");
@@ -111,6 +101,10 @@ let feedbackEl = document.getElementById("feedback");
 let startScreen = document.getElementById("start-screen");
 let questionsPage = document.getElementById("questions");
 let questionTitle = document.getElementById("question-title");
+let radioLabels = document.getElementsByTagName("label");
+let nextQuestion = document.getElementById("nextQuestion");
+radioButtons = [document.getElementById("choice-one"), document.getElementById("choice-two"), document.getElementById("choice-three"), document.getElementById("choice-four")]
+
 // var reStartBtn = document.querySelector("#restart");
 
 // Inititial state of quiz:
@@ -120,10 +114,10 @@ let timerId;
 
 // start the quiz and hide the front page:
 function quizStart() {
-    timerId = setInterval(clockTick, 1000);
+    timerId = setInterval(clockTick, 9000);
     timerEl.textContent = time;
     let landingScreenEl = document.getElementById("start-screen");
-    landingScreenEl.setAttribute("class","hide");
+    landingScreenEl.setAttribute("class", "hide");
     questionsEl.removeAttribute("class");
     getQuestion();
 }
@@ -203,34 +197,57 @@ function quizEnd() {
         "hide"
     );
 }
- 
+
 // function showquestions(){
 // questionTitleElement.textContent = questions[0].question
 // choicesEl.textContent = questions[0].choices
 // }
 
-// // event listener//
-console.log(startBtn)
-console.log(typeof startBtn)
-startBtn.addEventListener("click", function () {
-    console.log("hello");
-    startScreen.classList.add("hide");
+// updating question function
+function updateQuestion() {
+    console.log("Updating question")
     questionTitle.textContent = questions[currentQuestionIndex].question
+    let choices = questions[currentQuestionIndex].choices
+    for (i = 0; i < 4; i++) {
+        radioButtons[i].checked = false
+        radioLabels[i].innerHTML = choices[i]
+    }
+}
+
+// event listeners//
+startBtn.addEventListener("click", function () {
+    console.log("start clicked");
+    startScreen.classList.add("hide");
+    updateQuestion()
     questionsPage.classList.remove("hide");
 })
 
-// function showResults() { }
 
-// on submit, show results:
-// submitButton.addEventListener('click', showResults);
+nextQuestion.addEventListener("click", function () {
+    if (currentQuestionIndex < questions.length - 1) {
+        currentQuestionIndex += 1
+        updateQuestion()
+    }
+})
 
-//add a timer to the quiz:
-// var timeLeft = 30;
-// var timer = setInterval(function () {
-//     timeLeft--;
-//     document.getElementById('timer').textContent = timeLeft;
-//     if (timeLeft <= 0) {
-//         clearInterval(timer);
-//         alert('Time is up!');
-//     }
-// }, 1000);
+//adding timer to the quiz:
+
+startBtn.addEventListener("click", myFunction())
+function myFunction() {
+    var sec = 80;
+    console.log('timer supposed to go')
+    var timer = setInterval(function () {
+        sec--;
+        document.getElementById('time').innerHTML = '00:' + sec;
+        if (sec < 0) {
+            clearInterval(timer);
+            alert("Time is up!")
+        }
+    }, 1000);
+}
+// document.getElementById('incorrect').addEventListener('click', function() {
+//     sec -= 5;
+//     document.getElementById('timerDisplay').innerHTML='00:'+sec;
+// });
+// startTimer();
+// }) ();
