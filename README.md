@@ -7,4 +7,6 @@
 * Deduct time for wrong answers
 * Add to score for right answers 
 
-## Screenshots 
+## Screenshot
+
+<img src="./image.png"/> 
